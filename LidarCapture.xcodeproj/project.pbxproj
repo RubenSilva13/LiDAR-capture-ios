@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		61B9A9C32FAE134700BA19BA /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61B9A9C22FAE134700BA19BA /* ARKit.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		612A32F22FAE0DEF00CC5DBF /* LidarCapture.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LidarCapture.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		61B9A9C22FAE134700BA19BA /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61B9A9C32FAE134700BA19BA /* ARKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -33,6 +39,7 @@
 			isa = PBXGroup;
 			children = (
 				612A32F42FAE0DEF00CC5DBF /* LidarCapture */,
+				61B9A9C12FAE133900BA19BA /* Frameworks */,
 				612A32F32FAE0DEF00CC5DBF /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +50,14 @@
 				612A32F22FAE0DEF00CC5DBF /* LidarCapture.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		61B9A9C12FAE133900BA19BA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				61B9A9C22FAE134700BA19BA /* ARKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
