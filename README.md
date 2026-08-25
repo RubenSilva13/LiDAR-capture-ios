@@ -5,10 +5,10 @@ Aplicação iOS para captura de dados tridimensionais com o sensor LiDAR do iPho
 Projeto de final de curso da Licenciatura em Engenharia Informática — Escola Superior de Tecnologia e Gestão do Instituto Politécnico de Bragança (ESTiG/IPB).
 
 
-<img width="721" height="550" alt="churrasqueiraREAL" src="https://github.com/user-attachments/assets/3a90b05d-e637-4517-8fbf-a41e4b443764" />
-<img width="443" height="550" alt="churrasqueiraFRT" src="https://github.com/user-attachments/assets/2e70fc9e-ebb3-4583-920f-6c9bcf0da673" />
-<img width="1179" height="550" alt="captura2" src="https://github.com/user-attachments/assets/3994cec0-910e-43c3-8828-dfe78d9f5198" />
-<img width="1034" height="550" alt="modelo_ruido_lidar_novo" src="https://github.com/user-attachments/assets/a23e8eb2-5f97-44d5-8feb-6b064c9afbdd" />
+<img width="721" height="1000" alt="churrasqueiraREAL" src="https://github.com/user-attachments/assets/3a90b05d-e637-4517-8fbf-a41e4b443764" />
+<img width="443" height="1000" alt="churrasqueiraFRT" src="https://github.com/user-attachments/assets/2e70fc9e-ebb3-4583-920f-6c9bcf0da673" />
+<img width="1179" height="1000" alt="captura2" src="https://github.com/user-attachments/assets/3994cec0-910e-43c3-8828-dfe78d9f5198" />
+<img width="1034" height="1000" alt="modelo_ruido_lidar_novo" src="https://github.com/user-attachments/assets/a23e8eb2-5f97-44d5-8feb-6b064c9afbdd" />
 
 
 
@@ -16,7 +16,8 @@ Projeto de final de curso da Licenciatura em Engenharia Informática — Escola 
 
 Demonstração
 
-Mostrar Imagem
+https://youtu.be/zCv5jK-K-5s
+
 
 Vídeo (4 min) com a aplicação a capturar em tempo real nos três modos.
 
