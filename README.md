@@ -4,7 +4,14 @@ Aplicação iOS para captura de dados tridimensionais com o sensor LiDAR do iPho
 
 Projeto de final de curso da Licenciatura em Engenharia Informática — Escola Superior de Tecnologia e Gestão do Instituto Politécnico de Bragança (ESTiG/IPB).
 
-<img width="1179" height="2556" alt="churrasqueiraDIR" src="https://github.com/user-attachments/assets/514b5abb-c69c-4931-952a-8f5e49ebe7ec" /><img width="1179" height="2556" alt="captura2" src="https://github.com/user-attachments/assets/11301612-85df-4da7-b446-c6ec35ae5487" />
+
+<img width="721" height="550" alt="churrasqueiraREAL" src="https://github.com/user-attachments/assets/3a90b05d-e637-4517-8fbf-a41e4b443764" />
+<img width="443" height="550" alt="churrasqueiraFRT" src="https://github.com/user-attachments/assets/2e70fc9e-ebb3-4583-920f-6c9bcf0da673" />
+<img width="1179" height="550" alt="captura2" src="https://github.com/user-attachments/assets/3994cec0-910e-43c3-8828-dfe78d9f5198" />
+<img width="1034" height="550" alt="modelo_ruido_lidar_novo" src="https://github.com/user-attachments/assets/a23e8eb2-5f97-44d5-8feb-6b064c9afbdd" />
+
+
+
 
 
 Demonstração
