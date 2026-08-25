@@ -4,6 +4,9 @@ Aplicação iOS para captura de dados tridimensionais com o sensor LiDAR do iPho
 
 Projeto de final de curso da Licenciatura em Engenharia Informática — Escola Superior de Tecnologia e Gestão do Instituto Politécnico de Bragança (ESTiG/IPB).
 
+<img width="1179" height="2556" alt="churrasqueiraDIR" src="https://github.com/user-attachments/assets/514b5abb-c69c-4931-952a-8f5e49ebe7ec" /><img width="1179" height="2556" alt="captura2" src="https://github.com/user-attachments/assets/11301612-85df-4da7-b446-c6ec35ae5487" />
+
+
 Demonstração
 
 Mostrar Imagem
