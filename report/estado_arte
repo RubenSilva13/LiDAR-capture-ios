@@ -1,0 +1,406 @@
+\section{Estado da Arte}
+
+\subsection{Tecnologia LiDAR}
+
+A tecnologia LiDAR (Light Detection and Ranging) tem vindo a ganhar
+grande relevância em diversas áreas científicas e tecnológicas, como
+topografia, robótica, veículos autónomos, sistemas de navegação e
+mapeamento tridimensional \cite{lidar_principles}. O seu princípio de
+funcionamento baseia-se na emissão de pulsos de luz laser e na medição
+do tempo necessário para que essa luz seja refletida pelos objetos
+presentes no ambiente e retorne ao sensor. A partir da medição do tempo
+de voo do sinal luminoso, é possível calcular com elevada precisão a
+distância entre o sensor e os objetos da cena \cite{lidar_principles}.
+
+Tradicionalmente, sensores LiDAR eram utilizados principalmente em
+sistemas profissionais de elevada precisão, como scanners 3D
+industriais, sistemas de cartografia aérea ou veículos autónomos
+\cite{lidar_principles}. No entanto, nos últimos anos tem-se verificado
+uma crescente integração desta tecnologia em dispositivos móveis de
+consumo, como smartphones e tablets, permitindo novas aplicações
+relacionadas com perceção espacial, realidade aumentada e reconstrução
+tridimensional de ambientes \cite{smartphone_lidar_2022}.
+
+% ---------------------------------------------------------------
+\subsection{Tipos de Sensores LiDAR}
+
+Os sensores LiDAR podem ser classificados de acordo com a sua
+arquitetura e método de varrimento do feixe laser. Entre as arquiteturas
+mais comuns destacam-se os sensores LiDAR mecânicos e os sensores LiDAR
+de estado sólido (solid-state LiDAR). Enquanto os sistemas mecânicos
+utilizam componentes rotativos para realizar o varrimento do ambiente,
+os sistemas de estado sólido procuram eliminar partes móveis,
+permitindo maior robustez, menor consumo energético e maior integração
+em dispositivos compactos.
+
+Entre as principais arquiteturas de sensores LiDAR de estado sólido
+destacam-se o Flash LiDAR, o MEMS LiDAR e o LiDAR baseado em Optical
+Phased Arrays (OPA). Estas tecnologias têm sido amplamente investigadas
+como alternativas aos sistemas LiDAR mecânicos tradicionais
+\cite{solid_state_lidar_review}.
+
+O Flash LiDAR ilumina toda a área de interesse simultaneamente através
+de um pulso laser, semelhante ao funcionamento de um flash fotográfico.
+Um conjunto de fotodetetores capta simultaneamente o tempo de voo do
+sinal refletido para cada ponto da cena, permitindo reconstruir a
+informação tridimensional do ambiente \cite{solid_state_lidar_review}.
+
+Os sistemas MEMS LiDAR utilizam pequenos espelhos microeletromecânicos
+para direcionar o feixe laser em diferentes direções. Estes sistemas
+apresentam dimensões reduzidas e menor consumo energético quando
+comparados com sistemas LiDAR mecânicos tradicionais, sendo
+frequentemente utilizados em aplicações de robótica e navegação
+autónoma \cite{solid_state_lidar_review}.
+
+O LiDAR baseado em Optical Phased Arrays (OPA) permite direcionar o
+feixe laser através do controlo eletrónico da fase de múltiplos
+emissores óticos, eliminando completamente componentes mecânicos no
+sistema. Esta arquitetura apresenta grande potencial para integração
+em dispositivos compactos e sistemas baseados em semicondutores
+\cite{solid_state_lidar_review}.
+
+Para além da arquitetura do sensor, o mecanismo de varrimento
+(\textit{scanning}) é igualmente relevante. Diversas abordagens têm
+sido propostas, incluindo sistemas opto-mecânicos, eletromecânicos e
+arquiteturas baseadas em microespelhos MEMS ou em OPA
+\cite{lidar_scanning_mechanisms}. Os sistemas opto-mecânicos permitem
+obter campos de visão muito amplos e medições a longas distâncias, mas
+apresentam maiores dimensões e maior complexidade mecânica. As
+arquiteturas baseadas em MEMS e OPA permitem reduzir significativamente
+o tamanho e a complexidade dos sensores, sendo particularmente
+adequadas para dispositivos compactos \cite{lidar_scanning_mechanisms}.
+
+A Tabela~\ref{tab:lidar_comparison} apresenta uma comparação entre os
+principais tipos de sensores LiDAR descritos na literatura
+\cite{solid_state_lidar_review, lidar_scanning_mechanisms}.
+
+\begin{table}[h]
+\centering
+\caption{Comparação entre diferentes tipos de sensores LiDAR}
+\label{tab:lidar_comparison}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Tipo de LiDAR} & \textbf{Vantagens} & \textbf{Desvantagens}
+& \textbf{Aplicações} \\
+\hline
+Mecânico & Longo alcance, alta precisão & Grande dimensão, partes móveis
+& Veículos autónomos, cartografia \\
+\hline
+Flash LiDAR & Captura rápida de toda a cena & Alcance limitado
+& Smartphones, AR \\
+\hline
+MEMS LiDAR & Compacto, baixo consumo & Campo de visão limitado
+& Robótica, drones \\
+\hline
+OPA LiDAR & Sem partes móveis, alta integração & Tecnologia ainda emergente
+& Sistemas integrados, robótica \\
+\hline
+dToF LiDAR (Apple) & Alta precisão a curta distância & Alcance reduzido
+& Smartphones, realidade aumentada \\
+\hline
+\end{tabular}}
+\end{table}
+
+% ---------------------------------------------------------------
+\subsection{LiDAR em Dispositivos Móveis}
+
+A partir das medições realizadas pelo sensor LiDAR é possível gerar
+representações tridimensionais do ambiente sob a forma de mapas de
+profundidade (\textit{depth maps}) e nuvens de pontos tridimensionais
+(\textit{point clouds}) \cite{smartphone_lidar_2022}. Estas
+representações são amplamente utilizadas em aplicações de reconstrução
+3D, digitalização de objetos, modelação de interiores e sistemas de
+realidade aumentada.
+
+Diversos estudos têm analisado o desempenho e a precisão dos sensores
+LiDAR integrados em smartphones \cite{smartphone_lidar_2022}. Estes
+sensores apresentam uma precisão suficiente para aplicações de
+reconstrução tridimensional a curta distância, embora apresentem
+limitações quando comparados com sistemas LiDAR profissionais
+\cite{smartphone_lidar_2022}. Em particular, a precisão das medições
+tende a diminuir à medida que a distância ao objeto aumenta, sendo a
+resolução espacial inferior à de sistemas industriais, o que limita
+a captura de detalhes muito finos.
+
+Apesar destas limitações, os sensores LiDAR integrados em dispositivos
+móveis representam uma solução acessível e eficiente para aplicações de
+captura tridimensional rápida \cite{smartphone_lidar_2022, abbas_lidar_review_2024}.
+Estudos recentes demonstram que estes sensores permitem obter nuvens de
+pontos com precisão centimétrica, adequadas para diversas aplicações
+como modelação de interiores, documentação de património cultural e
+mapeamento de superfícies \cite{apple_lidar_2022, beavers_lidar_2024}.
+
+% ---------------------------------------------------------------
+\subsection{LiDAR em Dispositivos Apple}
+
+Dispositivos da Apple, como o iPhone Pro e o iPad Pro, incorporam
+sensores LiDAR que podem ser utilizados através da framework
+\texttt{ARKit} para aplicações de realidade aumentada
+\cite{apple_lidar_2022}. A Apple integrou esta tecnologia pela primeira
+vez no iPad Pro em 2020, expandindo-a posteriormente para a linha
+iPhone Pro a partir do iPhone 12 Pro \cite{abbas_lidar_review_2024}.
+Estes sensores permitem funcionalidades como deteção de superfícies,
+geração de mapas de profundidade e reconstrução de malhas
+tridimensionais do ambiente envolvente.
+
+O sensor LiDAR presente nestes dispositivos utiliza tecnologia Direct
+Time-of-Flight (dToF) para medir distâncias \cite{apple_lidar_2022}.
+O sistema baseia-se na emissão de pulsos laser através de emissores
+do tipo VCSEL (Vertical-Cavity Surface-Emitting Laser) e na deteção
+dos fotões refletidos através de sensores SPAD (Single-Photon
+Avalanche Diodes). O emissor VCSEL transmite um array de $8 \times 8$
+pontos distribuídos em grelhas de $3 \times 3$, resultando numa
+matriz global de 576 pontos \cite{abbas_lidar_review_2024}. Ao
+contrário dos scanners tradicionais, o sensor não possui partes
+móveis, sendo composto por milhares de lasers integrados num único
+chip \cite{abbas_lidar_review_2024}.
+
+O acesso aos dados do sensor é realizado através da propriedade
+\texttt{sceneDepth} do objeto \texttt{ARFrame}, disponível a partir
+do iOS~14.0. Esta propriedade encapsula um objeto \texttt{ARDepthData}
+com duas componentes principais: o \texttt{depthMap}, que contém a
+distância estimada em metros para cada ponto do ambiente, e o
+\texttt{confidenceMap}, que indica o grau de confiança de cada medição
+\cite{apple_lidar_2022}. Por omissão, esta propriedade é nula, sendo
+necessário ativar explicitamente o frame semantic correspondente na
+configuração da sessão \texttt{ARKit}. O iOS não expõe os dados brutos
+do LiDAR diretamente, produzindo antes um \textit{depth map} que
+combina dados de profundidade com dados RGB através de inteligência
+artificial \cite{abbas_lidar_review_2024}.
+
+A Tabela~\ref{tab:apple_lidar_specs} resume as principais
+especificações técnicas do sensor e a sua interface de acesso.
+
+\begin{table}[h]
+\centering
+\caption{Especificações técnicas do sensor LiDAR Apple}
+\label{tab:apple_lidar_specs}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Parâmetro} & \textbf{Valor} \\
+\hline
+Tecnologia & Direct Time-of-Flight (dToF) \\
+Emissor & VCSEL ($8 \times 8$ array, 576 pontos) \\
+Detetor & SPAD \\
+Alcance máximo & $\sim$5 metros (interiores) \\
+Frequência & $\sim$30 fps \\
+Resolução depth map & 256$\times$192 px \\
+API de acesso & \texttt{ARFrame.sceneDepth} \\
+Disponibilidade & iOS 14.0+ / iPadOS 14.0+ \\
+\hline
+\end{tabular}
+\end{table}
+
+A introdução de sensores LiDAR em dispositivos móveis representa um
+avanço significativo na democratização das tecnologias de captura
+tridimensional, permitindo que tecnologias anteriormente restritas a
+sistemas especializados possam agora ser utilizadas em dispositivos
+amplamente disponíveis \cite{apple_lidar_2022}.
+
+% ---------------------------------------------------------------
+\subsection{Comparação entre Dispositivos}
+
+A integração de sensores de profundidade em dispositivos móveis
+apresenta abordagens distintas consoante o fabricante. Os dispositivos
+Apple incorporam sensores LiDAR dedicados do tipo dToF com API
+pública, enquanto os dispositivos Samsung e Google recorrem a soluções
+baseadas em software e múltiplas câmaras, sem disponibilizar acesso
+direto aos dados de profundidade \cite{samsung_s25ultra_specs,
+google_pixel9pro_specs}.
+
+A Tabela~\ref{tab:apple_lidar_comparison} apresenta uma comparação
+detalhada das câmaras e do sensor LiDAR nos dispositivos Apple de
+2024 e 2025, com base nas especificações técnicas oficiais
+\cite{apple_iphone16pro_specs, apple_iphone17pro_specs,
+apple_ipadpro_specs}.
+
+\begin{table}[h]
+\centering
+\caption{Comparação de câmaras em dispositivos Apple com sensor
+LiDAR (2024--2025)}
+\label{tab:apple_lidar_comparison}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{Parâmetro} & \textbf{iPhone 16 Pro} & \textbf{iPhone 17 Pro}
+& \textbf{iPad Pro M4} & \textbf{iPad Pro M5} \\
+\hline
+\textbf{Ano} & 2024 & 2025 & 2024 & 2025 \\
+\hline
+\textbf{Chip} & A18 Pro & A19 Pro & M4 & M5 \\
+\hline
+\multicolumn{5}{|l|}{\textbf{Câmara Principal}} \\
+\hline
+Resolução & 48 MP & 48 MP & 12 MP & 12 MP \\
+Distância focal & 24 mm & 24 mm & --- & --- \\
+Abertura & f/1.78 & f/1.78 & f/1.8 & f/1.8 \\
+Estabilização & OIS 2ª gen & OIS 2ª gen & OIS & OIS \\
+Autofocus & 100\% Focus Pixels & 100\% Focus Pixels & PDAF & PDAF \\
+\hline
+\multicolumn{5}{|l|}{\textbf{Câmara Ultra-Grande Angular}} \\
+\hline
+Resolução & 48 MP & 48 MP & --- & --- \\
+Distância focal & 13 mm & 13 mm & --- & --- \\
+Abertura & f/2.2 & f/2.2 & --- & --- \\
+Campo de visão & 120° & 120° & --- & --- \\
+\hline
+\multicolumn{5}{|l|}{\textbf{Câmara Teleobjetiva}} \\
+\hline
+Resolução & 12 MP & 48 MP & --- & --- \\
+Distância focal & 120 mm & 100 mm & --- & --- \\
+Zoom ótico & 5x & 4x (qualidade 8x) & --- & --- \\
+Abertura & f/2.8 & f/2.8 & --- & --- \\
+Design & Tetraprism & Tetraprism & --- & --- \\
+\hline
+\multicolumn{5}{|l|}{\textbf{Sensor LiDAR}} \\
+\hline
+Tecnologia & dToF (VCSEL+SPAD) & dToF (VCSEL+SPAD)
+& dToF (VCSEL+SPAD) & dToF (VCSEL+SPAD) \\
+Alcance máximo & $\sim$5 m & $\sim$5 m & $\sim$5 m & $\sim$5 m \\
+API pública & \texttt{ARKit} & \texttt{ARKit}
+& \texttt{ARKit} & \texttt{ARKit} \\
+\hline
+\multicolumn{5}{|l|}{\textbf{Vídeo}} \\
+\hline
+Resolução máx. & 4K 120fps & 4K 120fps & 4K 60fps & 4K 60fps \\
+Formatos Pro & ProRes, ProRAW & ProRes, ProRAW & ProRes & ProRes \\
+\hline
+\multicolumn{5}{|l|}{\textbf{Câmara Frontal}} \\
+\hline
+Resolução & 12 MP & 18 MP & 12 MP & 12 MP \\
+Abertura & f/1.9 & f/1.9 & f/2.0 & f/2.0 \\
+\hline
+\end{tabular}}
+\end{table}
+
+Ao contrário dos dispositivos Apple, os smartphones Android topo de
+gama não incorporam sensores LiDAR dedicados \cite{samsung_s25ultra_specs}.
+A Tabela~\ref{tab:android_depth_comparison} compara as abordagens de
+perceção de profundidade adotadas pelos principais concorrentes
+\cite{samsung_s24ultra_specs, samsung_s25ultra_specs,
+google_pixel9pro_specs}.
+
+\begin{table}[h]
+\centering
+\caption{Abordagens de perceção de profundidade em dispositivos
+Android topo de gama (2024--2025)}
+\label{tab:android_depth_comparison}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Parâmetro} & \textbf{Galaxy S24 Ultra}
+& \textbf{Galaxy S25 Ultra} & \textbf{Google Pixel 9 Pro} \\
+\hline
+\textbf{Ano} & 2024 & 2025 & 2024 \\
+\hline
+\textbf{Chip} & Snapdragon 8 Gen 3 & Snapdragon 8 Elite & Tensor G4 \\
+\hline
+\multicolumn{4}{|l|}{\textbf{Câmara Principal}} \\
+\hline
+Resolução & 200 MP & 200 MP & 50 MP \\
+Abertura & f/1.7 & f/1.7 & f/1.68 \\
+Distância focal & 24 mm & 24 mm & 24 mm \\
+Estabilização & OIS & OIS & OIS \\
+\hline
+\multicolumn{4}{|l|}{\textbf{Câmara Ultra-Grande Angular}} \\
+\hline
+Resolução & 12 MP & 50 MP & 48 MP \\
+Abertura & f/2.2 & f/1.9 & f/1.7 \\
+Campo de visão & 120° & 120° & 123° \\
+\hline
+\multicolumn{4}{|l|}{\textbf{Câmara Teleobjetiva}} \\
+\hline
+Resolução & 50 MP & 50 MP & 48 MP \\
+Zoom ótico & 5x & 5x & 5x \\
+Abertura & f/3.4 & f/3.4 & f/2.8 \\
+\hline
+\multicolumn{4}{|l|}{\textbf{Sensor de Profundidade}} \\
+\hline
+Tipo & Laser AF (ToF híbrido) & Laser AF (ToF híbrido) & LDAF multi-zona \\
+Sensor dedicado & Não & Não & Não \\
+Método principal & Laser AF + IA & Laser AF + IA
+& Software + múltiplas câmaras \\
+Alcance mapeado & Apenas autofocus & Apenas autofocus & Apenas autofocus \\
+API pública & Não disponível & Não disponível & Não disponível \\
+\hline
+\multicolumn{4}{|l|}{\textbf{Vídeo}} \\
+\hline
+Resolução máx. & 8K 30fps & 8K 30fps & 4K 60fps \\
+\hline
+\end{tabular}}
+\end{table}
+
+A ausência de sensores LiDAR dedicados e de APIs públicas de acesso a
+dados de profundidade nos dispositivos Android evidencia a posição
+única da Apple neste domínio \cite{samsung_s25ultra_specs}. Esta diferença
+é particularmente relevante para o presente projeto, uma vez que o
+\texttt{ARKit} disponibiliza acesso direto ao \texttt{depthMap} e ao
+\texttt{confidenceMap} através da propriedade
+\texttt{ARFrame.sceneDepth}, funcionalidade sem equivalente nos
+ecossistemas Android.
+
+% ---------------------------------------------------------------
+\subsection{Modelos de Ruído em Sensores LiDAR}
+
+A qualidade das medições de um sensor LiDAR é afetada por diferentes
+fontes de ruído, cujo conhecimento é essencial para a modelação
+computacional do sensor \cite{smartphone_lidar_2022}. As principais
+fontes identificadas na literatura são:
+
+\begin{itemize}
+    \item \textbf{Ruído de distância:} o erro de medição aumenta
+    proporcionalmente com a distância ao objeto observado, sendo
+    particularmente relevante em sensores móveis com alcance reduzido.
+
+    \item \textbf{Ruído de superfície:} superfícies reflexivas,
+    transparentes ou com elevada absorção de luz reduzem a confiança
+    das medições. De acordo com a documentação oficial do \texttt{ARKit},
+    a luz natural do ambiente afeta a precisão do \texttt{depthMap},
+    sendo que este tipo de superfícies resulta em valores de
+    \texttt{confidenceMap} mais baixos \cite{apple_lidar_2022}.
+    Estudos confirmam que superfícies muito escuras, espelhadas ou de
+    vidro geram lacunas no \textit{point cloud} e podem causar
+    desalinhamento dos pontos de dados \cite{abbas_lidar_review_2024}.
+
+    \item \textbf{Ruído multipath:} o sinal laser reflete em múltiplas
+    superfícies antes de regressar ao sensor, introduzindo erros
+    sistemáticos nas medições de distância.
+
+    \item \textbf{Ruído de deriva (\textit{drift}):} em scans de maior
+    duração ou distância, o erro propaga-se progressivamente devido às
+    limitações do IMU (Inertial Measurement Unit) integrado no
+    dispositivo, podendo originar desalinhamentos verticais de até
+    10~cm \cite{beavers_lidar_2024}.
+\end{itemize}
+
+O \texttt{ARKit} quantifica a confiança de cada medição através do
+enumerado \texttt{ARConfidenceLevel}, com três níveis possíveis:
+\texttt{low}, \texttt{medium} e \texttt{high}. Esta informação será
+utilizada na fase de modelação do sensor para filtrar medições pouco
+fiáveis e caracterizar as condições em que o ruído é mais pronunciado.
+
+
+% ---------------------------------------------------------------
+\subsection{Trabalhos Relacionados}
+
+Diversos estudos têm avaliado o desempenho do sensor LiDAR em
+dispositivos Apple em diferentes contextos. Luetzenburg et al.
+\cite{luetzenburg_iphone_lidar_2021} avaliaram o iPhone 12 Pro
+em levantamentos topográficos, concluindo que o sensor é adequado
+para mapeamento a curta e média distância, embora o ARKit limite
+a exportação dos dados brutos através de triangulação interna.
+Tondo et al. \cite{tondo_iphone_lidar_vibration_2023} caracterizaram
+o ruído temporal do sensor do iPhone 13 Pro, determinando que a
+distância ótima de operação se situa entre 0,30~m e 2,00~m ---
+resultado diretamente relevante para o presente projeto. No contexto
+de mapeamento de interiores, Teo e Yang \cite{teo_ipad_lidar_bim_2023}
+demonstraram precisões da ordem do milímetro em aquisições estáticas
+e do centímetro em aquisições dinâmicas com o iPad Pro.
+
+Face a estes trabalhos, o presente projeto distingue-se por
+desenvolver uma aplicação iOS dedicada ao acesso direto ao
+\texttt{depthMap} e \texttt{confidenceMap} via ARKit, combinada
+com um pipeline de análise em Python para modelação computacional
+do ruído e precisão do sensor em função da distância.
+

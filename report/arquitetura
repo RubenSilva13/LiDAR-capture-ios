@@ -1,0 +1,342 @@
+Este capítulo descreve a arquitetura do sistema desenvolvido no
+âmbito do presente projeto, composto por dois componentes
+principais: uma aplicação iOS para recolha de dados LiDAR e um
+pipeline de análise em Python para processamento e visualização
+dos dados capturados.
+
+% ---------------------------------------------------------------
+\section{Visão Geral}
+
+O sistema é constituído por dois módulos distintos que operam
+em sequência, conforme ilustrado na Figura 4.1.
+
+O primeiro módulo, desenvolvido em Swift para iOS, é responsável
+pela interface com o sensor LiDAR do dispositivo Apple através da
+framework ARKit, pela visualização em tempo real dos dados de
+profundidade e pela exportação dos dados em formato CSV. O segundo
+módulo, desenvolvido em Python, realiza o processamento estatístico
+dos dados exportados, a análise de ruído do sensor e a geração de
+visualizações gráficas para suporte à modelação computacional.
+
+\clearpage
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1.1\textwidth]{docs/diagram/diagram1.png}
+\caption{Arquitetura geral do sistema LiDAR}
+\label{fig:arquitetura}
+\end{figure}
+
+% ---------------------------------------------------------------
+\section{Aplicação iOS}
+
+A aplicação iOS foi desenvolvida em Swift com recurso às
+frameworks SwiftUI e ARKit, seguindo uma arquitetura modular
+composta por nove ficheiros principais, cada um com
+responsabilidades bem definidas.
+
+% ---------------------------------------------------------------
+\subsection{LidarCaptureApp.swift}
+
+Ficheiro de entrada da aplicação. Define o ponto de início da
+execução e instancia a vista principal \texttt{ContentView},
+seguindo o padrão de aplicações SwiftUI.
+
+% ---------------------------------------------------------------
+\subsection{ContentView.swift}
+
+Responsável pela organização da interface gráfica da aplicação
+em cinco separadores (tabs) distintos, cada um instanciando
+a respetiva vista:
+
+\begin{itemize}
+    \item \textbf{Captura} — instancia \texttt{CapturaView};
+    \item \textbf{Análise} — instancia \texttt{AnaliseView};
+    \item \textbf{Nuvem} — instancia \texttt{NuvemView};
+    \item \textbf{Resultados} — instancia \texttt{ResultadosView};
+    \item \textbf{Info} — instancia \texttt{InfoView}.
+\end{itemize}
+
+% ---------------------------------------------------------------
+\subsection{CaptureViewModel.swift}
+
+Classe que implementa o padrão \textit{ObservableObject} do
+SwiftUI, responsável pela gestão do estado da aplicação. As
+variáveis anotadas com \texttt{@Published} notificam
+automaticamente a interface sempre que o seu valor é alterado,
+garantindo a atualização em tempo real. Gere as seguintes
+propriedades:
+
+\begin{itemize}
+    \item \texttt{isCapturing} — estado da sessão de captura;
+    \item \texttt{frameCount} — contador de frames capturados;
+    \item \texttt{currentDepthImage} — imagem do heatmap atual;
+    \item \texttt{centerDepth} — distância central em tempo real;
+    \item \texttt{minDepth} e \texttt{maxDepth} — distâncias
+    mínima e máxima da cena atual;
+    \item \texttt{lastSavedURL} — URL do ficheiro CSV exportado.
+\end{itemize}
+
+% ---------------------------------------------------------------
+\subsection{CapturaView.swift}
+
+Ecrã principal da aplicação. Apresenta o heatmap de profundidade
+em tempo real com as seguintes funcionalidades:
+
+\begin{itemize}
+    \item Heatmap com escala de cores dinâmica adaptada ao
+    intervalo de profundidades da cena atual;
+    \item Grid de referência sobreposto ao heatmap para
+    orientação espacial;
+    \item Indicador de distância central em tempo real;
+    \item Indicadores de distância mínima e máxima;
+    \item Seletor de modo de captura: Normal (step=4,
+    $\approx$3.000 pts/frame), Alta Resolução (step=2,
+    $\approx$12.000 pts/frame) e ROI Centro (step=1,
+    região central de 64$\times$64 px);
+    \item Botão de início/paragem e exportação do CSV.
+\end{itemize}
+
+% ---------------------------------------------------------------
+\subsection{AnaliseView.swift}
+
+Apresenta as métricas em tempo real do sensor e da sessão de
+captura, organizadas em três secções:
+
+\begin{itemize}
+    \item \textbf{Métricas Principais} — frames capturados,
+    estado da sessão, área total, profundidade máxima e
+    qualidade das medições;
+    \item \textbf{Sensor LiDAR} — especificações técnicas:
+    resolução (256$\times$192 px), frequência ($\approx$30 fps),
+    alcance (0.1m--5.0m) e taxa de amostragem;
+    \item \textbf{Exportação} — formato e colunas do CSV exportado.
+\end{itemize}
+
+% ---------------------------------------------------------------
+\subsection{NuvemView.swift}
+
+Apresenta informação sobre a nuvem de pontos 3D capturada,
+incluindo o número estimado de pontos, o formato de exportação
+PLY e instruções para importação no Blender.
+
+% ---------------------------------------------------------------
+\subsection{ResultadosView.swift}
+
+Lista os ficheiros CSV guardados no dispositivo, apresentando
+o nome, tamanho e data de cada captura. Permite exportar
+ficheiros individuais via \textit{ShareLink} e eliminar
+capturas desnecessárias através de gesto de deslize ou
+modo de edição.
+
+% ---------------------------------------------------------------
+\subsection{InfoView.swift}
+
+Disponibiliza informação sobre o projeto, o dispositivo
+utilizado (iPhone 14 Pro), o sensor LiDAR e as tecnologias
+utilizadas: Swift/SwiftUI, ARKit, Python, Blender e Figma.
+
+% ---------------------------------------------------------------
+\subsection{LidarCaptureSession.swift}
+
+Componente central da aplicação, responsável pela comunicação
+com o sensor LiDAR através do ARKit. As suas principais
+responsabilidades são:
+
+\begin{itemize}
+    \item Configurar e iniciar uma sessão ARKit com suporte a
+    \texttt{sceneDepth} e \texttt{smoothedSceneDepth};
+
+    \item Receber e processar os frames de profundidade a
+    aproximadamente 30 frames por segundo;
+
+    \item Suportar três modos de captura configuráveis:
+    Normal, Alta Resolução e ROI;
+
+    \item Calcular em tempo real a distância central, mínima
+    e máxima de cada frame através dos callbacks
+    \texttt{onDepthStatsReady};
+
+    \item Filtrar medições fora do intervalo válido
+    $[0.1\text{m},\ 5.0\text{m}]$;
+
+    \item Acumular até 500.000 pontos ou 60 segundos de
+    captura, o que ocorrer primeiro;
+
+    \item Exportar os dados acumulados para um ficheiro CSV
+    com o formato:\\
+    \texttt{timestamp, x, y, depth\_m, confidence,
+    world\_x, world\_y, world\_z}.
+\end{itemize}
+
+A cada frame processado, são extraídos o mapa de profundidade
+(\texttt{depthMap}) e o mapa de confiança
+(\texttt{confidenceMap}), ambos fornecidos pelo ARKit sob a
+forma de \texttt{CVPixelBuffer}. Os parâmetros intrínsecos
+da câmara (fx, fy, cx, cy) são utilizados para converter
+as coordenadas de pixel em coordenadas 3D reais no espaço
+(\texttt{world\_x}, \texttt{world\_y}, \texttt{world\_z}).
+
+% ---------------------------------------------------------------
+\subsection{DepthHeatmapView.swift}
+
+Responsável pela conversão dos dados de profundidade numa
+representação visual em tempo real. A escala de cores é
+dinâmica, adaptando-se automaticamente ao intervalo de
+profundidades da cena atual (min/max), o que permite
+distinguir detalhes mesmo em cenas com pequena variação
+de profundidade. O mapeamento de cores segue a escala:
+
+\begin{itemize}
+    \item \textbf{Azul} — objetos mais próximos;
+    \item \textbf{Ciano e Verde} — distâncias intermédias;
+    \item \textbf{Amarelo e Vermelho} — objetos mais distantes.
+\end{itemize}
+
+A imagem é gerada através de um \texttt{CGContext} e
+apresentada como \texttt{UIImage}, sendo atualizada a
+cada frame capturado.
+
+% ---------------------------------------------------------------
+\section{Pipeline de Análise em Python}
+
+O segundo componente do sistema é composto por dois scripts
+Python desenvolvidos para processar e visualizar os dados
+exportados pela aplicação iOS.
+
+\vspace{1cm}
+
+\subsection{lidar\_analysis.py}
+
+Script de análise estatística que processa os dados CSV
+exportados. O pipeline é composto pelas seguintes etapas:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1.1\textwidth]{docs/diagram/diagram2.png}
+\caption{Arquitetura geral do sistema LiDAR}
+\label{fig:arquitetura}
+\end{figure}
+
+
+\begin{enumerate}
+    \item \textbf{Carregamento dos dados} — leitura do ficheiro
+    CSV para uma estrutura \textit{DataFrame} da biblioteca Pandas;
+
+    \item \textbf{Análise estatística} — cálculo de estatísticas
+    descritivas globais: média, desvio padrão, mínimo e máximo
+    de profundidade, e distribuição dos níveis de confiança;
+
+    \item \textbf{Análise de ruído} — agrupamento por pixel
+    $(x, y)$ e cálculo do desvio padrão temporal das medições
+    de cada pixel ao longo dos frames, quantificando o ruído
+    do sensor em função da distância;
+
+    \item \textbf{Visualização} — geração de oito gráficos:
+    heatmap de profundidade, histograma de distribuição,
+    distribuição de confiança, evolução temporal, ruído vs.
+    distância, mapa espacial de ruído, boxplot por zona e
+    pontos por frame.
+\end{enumerate}
+\vspace{1cm}
+
+
+
+\subsection{csv\_to\_ply.py}
+
+Script de conversão que transforma os dados CSV em formato
+PLY para visualização no Blender ou CloudCompare. As
+principais funcionalidades são:
+
+
+\begin{itemize}
+    \item Utilização das coordenadas 3D reais
+    (\texttt{world\_x}, \texttt{world\_y}, \texttt{world\_z})
+    quando disponíveis;
+    \item Filtragem dos pontos com confiança alta para
+    melhor qualidade da nuvem;
+    \item Coloração dinâmica baseada na profundidade,
+    com a mesma escala de cores do heatmap da aplicação.
+\end{itemize}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=1.1\textwidth]{docs/diagram/diagram3.png}
+\caption{Arquitetura geral do sistema LiDAR}
+\label{fig:arquitetura}
+\end{figure}
+
+\clearpage
+
+
+% ---------------------------------------------------------------
+\section{Interface da Aplicação}
+
+A interface da aplicação foi prototipada no Figma e é composta
+por cinco abas principais, apresentadas de seguida.
+
+\subsection{Captura}
+Ecrã principal que apresenta o heatmap de profundidade em tempo
+real com grid de referência, indicador de distância central,
+indicadores de mínimo e máximo, seletor de modo de captura
+e controlos de início e paragem.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\textwidth]{docs/mockups/mockup1.png}
+\caption{Aba Captura}
+\label{fig:mockup_captura}
+\end{figure}
+
+\subsection{Análise}
+Apresenta métricas em tempo real do sensor e da sessão,
+incluindo frames capturados, estado da captura, especificações
+técnicas do sensor e informação sobre o formato de exportação.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\textwidth]{docs/mockups/mockup2.png}
+\caption{Aba Análise}
+\label{fig:mockup_analise}
+\end{figure}
+
+\clearpage
+
+\subsection{Nuvem de Pontos}
+Informação sobre a nuvem de pontos 3D capturada, número
+estimado de pontos e instruções de exportação para o Blender
+via formato PLY.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\textwidth]{docs/mockups/mockup3.png}
+\caption{Aba Nuvem de Pontos}
+\label{fig:mockup_nuvem}
+\end{figure}
+
+\clearpage
+
+\subsection{Resultados}
+Lista das capturas guardadas com nome, tamanho e data,
+com opções de exportação e eliminação de ficheiros CSV.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\textwidth]{docs/mockups/mockup4.png}
+\caption{Aba Resultados}
+\label{fig:mockup_resultados}
+\end{figure}
+
+\clearpage
+
+\subsection{Info}
+Informação sobre o projeto, instituição, dispositivo utilizado,
+sensor LiDAR e tecnologias empregues.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\textwidth]{docs/mockups/mockup5.png}
+\caption{Aba Info}
+\label{fig:mockup_info}
+\end{figure}
